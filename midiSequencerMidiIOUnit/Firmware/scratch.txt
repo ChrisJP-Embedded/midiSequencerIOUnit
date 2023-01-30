@@ -1,0 +1,123 @@
+
+#define LOG_TAG "SystemComponent"
+
+
+static uint8_t demoTestPlaybackPrepareFile(fileSysInterfaceData_t * fileSysInterfacePtr, uint8_t * fileDataCache);
+
+
+//*************************
+//***** SYSTEM LOOP *******
+//*************************
+void systemEntryPoint(void)
+{
+    bleToAppQueueItem_t rxBleItem;
+    fileSysInterfaceData_t * fileSysInterfacePtr = NULL;
+
+
+    //Allocate the file buffer - this will be used by 
+    //the file system when reading and writing files 
+    midiFileDataCache = heap_caps_malloc(PSRAM_MIDI_FILE_STORE_SIZE, MALLOC_CAP_SPIRAM);
+    if(midiFileDataCache == NULL)
+    {
+        //HANDLE ERROR
+        ESP_LOGE(LOG_TAG, "Failed to allocate memory for local file cache");
+    }
+
+    vTaskDelay(1);
+
+    fileSysInterfacePtr = initFileSystem();
+    ESP_LOGI(LOG_TAG, "Returned: %s", (fileSysInterfacePtr->hasMountedSucessfully) ? "Mount sucessful" : "Mount FAILED");
+    for(uint8_t a = 0; a < fileSysInterfacePtr->numFiles; ++a )
+    {
+        ESP_LOGI(LOG_TAG, "File found: %s", &fileSysInterfacePtr->fileNamesPtr[a][0]);
+    }
+
+    if(demoTestPlaybackPrepareFile(fileSysInterfacePtr, midiFileDataCache) !=0)
+    {
+        ESP_LOGE(LOG_TAG, "Failed to prepare test playback data");
+        while(1)
+        {
+            ESP_LOGE(LOG_TAG, "SYSTEM FAULT");
+            vTaskDelay(pdMS_TO_TICKS(3000));
+        }
+    }
+
+    vTaskDelay(1);
+
+    ESP_LOGI(LOG_TAG, "********* SYSTEM STARTUP SUCCESSFUL *******");
+    while(1)
+    {
+        if(xQueueReceive(blePeriph_bleToAppQueue, &rxBleItem, pdMS_TO_TICKS(1)) == pdTRUE)
+        {
+            switch(rxBleItem.opcode)
+            {
+
+                case 1:
+                    playbackQueueItem.opcode = 0x01;
+                    xQueueSend(midiPlayback_appToTaskQueue, &playbackQueueItem, pdMS_TO_TICKS(1));
+                    break;
+
+                case 2:
+                    playbackQueueItem.opcode = 0x02;
+                    xQueueSend(midiPlayback_appToTaskQueue, &playbackQueueItem, pdMS_TO_TICKS(1));
+                    break;
+
+                case 3: 
+                    playbackQueueItem.opcode = 0x03;
+                    xQueueSend(midiPlayback_appToTaskQueue, &playbackQueueItem, pdMS_TO_TICKS(1));
+                    break;
+
+                case 4:
+                    playbackQueueItem.opcode = 0x04;
+                    xQueueSend(midiPlayback_appToTaskQueue, &playbackQueueItem, pdMS_TO_TICKS(1));
+                    break;
+
+                case 5:
+                    playbackQueueItem.opcode = rxBleItem.opcode;
+                    playbackQueueItem.dataLength = rxBleItem.dataLength;
+                    memcpy(playbackQueueItem.data, rxBleItem.data, playbackQueueItem.dataLength);
+                    xQueueSend(midiPlayback_appToTaskQueue, &playbackQueueItem, pdMS_TO_TICKS(1));
+                    break;
+
+                case 0xFF: //File Transfer
+                    break;
+            }
+        }
+
+        taskYIELD();
+        vTaskDelay(1);
+    }
+}
+
+
+
+
+
+
+
+static uint8_t demoTestPlaybackPrepareFile(fileSysInterfaceData_t * fileSysInterfacePtr, uint8_t * fileDataCache)
+{
+    //Plays back the first midi track found on the file system.
+    //We can flash the file sys over USB and test file based playback.
+    if(fileSys_openFileRW(&fileSysInterfacePtr->fileNamesPtr[0][0], false) == 0)
+    {
+        ESP_LOGI(LOG_TAG, "Sucessfully opened file: %s", &fileSysInterfacePtr->fileNamesPtr[0][0]);
+    }
+    else
+    {
+        ESP_LOGE(LOG_TAG, "Failed to open file: %s", &fileSysInterfacePtr->fileNamesPtr[0][0]);
+        return 1;
+    }
+
+    if(fileSys_readFile(fileDataCache, fileSysInterfacePtr->numBytesInOpenFile) == 0)
+    {
+        ESP_LOGI(LOG_TAG, "Sucessfully read: %ld bytes into local PSRAM cache", fileSysInterfacePtr->numBytesInOpenFile);
+    }
+    else
+    {
+        ESP_LOGE(LOG_TAG, "Failed to read %ld bytes", fileSysInterfacePtr->numBytesInOpenFile);
+        return 1;
+    }
+
+    return 0;
+}

@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "ble_hs.h": "c",
+        "ble_uuid.h": "c",
+        "filesys.h": "c",
+        "gptimer.h": "c",
+        "esp_vfs.h": "c",
+        "reent.h": "c",
+        "malloc.h": "c",
+        "filesysprivate.h": "c",
+        "esp_littlefs.h": "c",
+        "bleperipheralserver.h": "c",
+        "queue.h": "c",
+        "esp_err.h": "c",
+        "random": "c",
+        "functional": "c",
+        "string.h": "c",
+        "freertos.h": "c",
+        "regex": "c",
+        "ble_svc_gatt.h": "c",
+        "bleprph.h": "c",
+        "syscfg.h": "c",
+        "systemlowlevel.h": "c"
+    },
+    "idf.adapterTargetName": "esp32s3"
+}

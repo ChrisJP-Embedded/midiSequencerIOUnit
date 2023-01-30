@@ -1,0 +1,59 @@
+[1/5] cd /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/esp-idf/esptool_py && /home/synth002/.espressif/python_env/idf5.0_py3.10_env/bin/python /home/synth002/esp/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/partition_table/partition-table.bin /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/midi_io.bin
+midi_io.bin binary size 0x8f290 bytes. Smallest app partition is 0x177000 bytes. 0xe7d70 bytes (62%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader/esp-idf/esptool_py && /home/synth002/.espressif/python_env/idf5.0_py3.10_env/bin/python /home/synth002/esp/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader/bootloader.bin
+Bootloader binary size 0x5150 bytes. 0x2eb0 bytes (36%) free.
+[2/3] cd /home/synth002/esp/esp-idf-v5.0/components/esptool_py && /usr/bin/cmake -D IDF_PATH=/home/synth002/esp/esp-idf-v5.0 -D "SERIAL_TOOL=/home/synth002/.espressif/python_env/idf5.0_py3.10_env/bin/python;;/home/synth002/esp/esp-idf-v5.0/components/esptool_py/esptool/esptool.py;--chip;esp32s3" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build -P /home/synth002/esp/esp-idf-v5.0/components/esptool_py/run_serial_tool.cmake
+esptool esp32s3 -p /dev/ttyACM0 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 16MB 0x0 bootloader/bootloader.bin 0x10000 midi_io.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.4
+Serial port /dev/ttyACM0
+Connecting...
+Chip is ESP32-S3 (revision v0.1)
+Features: WiFi, BLE
+Crystal is 40MHz
+MAC: 7c:df:a1:fe:e8:f8
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00000000 to 0x00005fff...
+Flash will be erased from 0x00010000 to 0x0009ffff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 20816 bytes to 13274...
+Writing at 0x00000000... (100 %)
+Wrote 20816 bytes (13274 compressed) at 0x00000000 in 0.3 seconds (effective 533.6 kbit/s)...
+Hash of data verified.
+Compressed 586384 bytes to 351089...
+Writing at 0x00010000... (4 %)
+Writing at 0x0001b867... (9 %)
+Writing at 0x00024644... (13 %)
+Writing at 0x00029e55... (18 %)
+Writing at 0x0003399d... (22 %)
+Writing at 0x00039a9f... (27 %)
+Writing at 0x0003ff19... (31 %)
+Writing at 0x00045bd1... (36 %)
+Writing at 0x0004baa3... (40 %)
+Writing at 0x00051348... (45 %)
+Writing at 0x00056ace... (50 %)
+Writing at 0x0005bfb9... (54 %)
+Writing at 0x000620b6... (59 %)
+Writing at 0x00067a76... (63 %)
+Writing at 0x0006df35... (68 %)
+Writing at 0x00073ae8... (72 %)
+Writing at 0x00079520... (77 %)
+Writing at 0x00082d50... (81 %)
+Writing at 0x0008b3d1... (86 %)
+Writing at 0x00090c82... (90 %)
+Writing at 0x00096941... (95 %)
+Writing at 0x0009c651... (100 %)
+Wrote 586384 bytes (351089 compressed) at 0x00010000 in 3.4 seconds (effective 1395.9 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 137...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (137 compressed) at 0x00008000 in 0.0 seconds (effective 703.8 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

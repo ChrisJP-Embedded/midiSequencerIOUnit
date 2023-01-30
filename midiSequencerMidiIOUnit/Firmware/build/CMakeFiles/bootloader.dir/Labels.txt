@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/CMakeFiles/bootloader
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/CMakeFiles/bootloader.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/CMakeFiles/bootloader-complete.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

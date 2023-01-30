@@ -1,0 +1,91 @@
+//MIDI FILE HEADER SECTION (FROM BYTE ADDR 0)
+//Appears in contiguous memory as follows:
+//MThd              (4 bytes)
+//fileLength        (4 bytes) //Big endian
+//format            (2 byte)
+//numTracks         (2 byte)
+//timeDivision      (2 byte)
+
+
+//*** MIDI TRACK HEADER SECTION (FROM BYTE ADDR 14)
+//Appears in contiguous memory as follows:
+//MTrk              (4 bytes)
+//trackLength       (4 bytes)
+//TRACK_MIDI_DATA   (trackLength bytes)
+//NOTE: The TRACK_MIDI_DATA section is a list of time events (midi, SysEx system exclusive, Meta).
+
+
+//*** TRACK_MIDI_DATA Layout
+//After the 8 bytes that make up the track header everything is made up of delta_times and midi events.
+//A midi event is always prepended with a delta_time, events occurs in contiguous memory as follows:
+//Delta_time      (variable length bytes - if bit 8 of the a byte is set, another is expected)
+//Midi_event      (variable length bytes - length depends of type of event)
+
+
+//**** META EVENTS
+//A meta event is a special type of midi event which is never meant to be played
+//back - instead it carries some information regarding the track in which it exists.
+//The status byte of a meta event is ALWAYS 0xFF. 
+//----------------------------------------------
+//SET TEMPO META EVENT - Specifies the number of microseconds per quater-note.
+//The set tempo event can occur multiple times in a single track.
+//Example set tempo meta event: (will also have a detla time, not shown).
+//      0xFF 0x51 0x03 0x07 0xA1 0x20
+//(0xFF) The first byte indicates a meta midi event.
+//(0x51) The second byte is the 'set tempo' opcode itself.
+//(0x03) The third byte states the number of remaing bytes which make up the tempo vale.
+//(0x07 0xA1 0x20) The tempo - MSB first - ALWAYS expressed in microseconds per quater-note. 0x07A120 (500000 decimal, tempo of 120bpm).
+//NOTE: The midi standard specified a default of 120Bmp.
+//----------------------------------------------
+//END OF TRACK (mandatory) - Indicates the final midi event for the track in which it is contained
+//Occurs once at the end of each MTrk chunk.
+//      0xFF 0x2F 0x00 
+//(0xFF) The first byte indicates a meta midi event.
+//(0x2F) The second byte is the 'EOF' opcode itself
+//(0x00) Zero byte is last in track.
+//----------------------------------------------
+
+
+//**** DELTA TIMES
+//A midi MTrk chunk is a list of events (midi, SysEx system exclusive, Meta)
+//Each event is timestamped, the time stamp is referred to as the DELTA TIME.
+//The delta-time specifies how many MIDI TICKS to wait until the next event.
+//----------------------------------------------
+//DELTA TIMES are VARIABLE LENGTH VALUES (from 1 - 4 bytes in length)
+//Bit 8 of each delta time byte is used to indicate if more delta time bytes exist,
+//when bit 8 is SET then there is at least one more delta time byte. When bit 8 is
+//CLEAR then there are no more delta time bytes for the delta time being processed.
+//----------------------------------------------
+//EXAMPLE 1:
+//      0x81 0x00 (raw delta-time bytes)
+//Bit 8 of the first byte is SET (at least one more byte), Bit 8 of second byte is CLEAR (no more bytes).
+//To construct the final delta-time value remove bit 8 of both byes, the concatenate the result to get final value.
+//      0000001 0000000     (bit eight of each byte removed)
+//      0b00000010000000    (concatenate result into final delta-time value)
+//      0x80 (128)          (final delta-time value, 128 midi ticks)
+//-----------------------------------------------
+//EXAMPLE 2:
+//      0x82 0x80 0x00 (raw delta-time bytes)
+//Bit 8 of the first and second bytes are SET, Bit 8 of the third byte its CLEAR (no more bytes).
+//To construct the final delta-time value remove bit 8 of all three bytes and concenate the result.
+//      0000010 0000000 0000000     (bit eight of each byte removed)
+//      0b000001000000000000000     (concatenate result into final delta-time value
+//      0x8000 (32768)              (final delta-time value, 128 midi ticks)
+
+
+//**GENERATING MIDI TIMING FOR PLAYBACK
+//Midi event timing is specified using event delta-times, which indicate a number of MIDI TICKS,
+//to get a clock for midi ticks we need the 2 timeDivision bytes from the file header, and a tempo
+//the default tempo is always 120bmp - but it can be changed at any poiny via a SET TEMPO META EVENT.
+//
+//The sequencer hardware side has a fixed PPQ - Pulses Per Quater (as in, quater note).
+//The PPQ affects the resolution at which a sequencer can quantise midi data.
+//In order to generate a midi tick clock:
+//60 / tempo = microseconds_per_quater_note
+//microseconds_per_quater_note / PPQ (pulses per quater note) = MIDI TICK interval in microseconds
+//----------------------------------------------
+//EXAMPLE:
+//      Sequencer PPQ = 96
+//      temp = 140 (via set temp meta event)
+//      60/140 = ~0.428571 = 428571us
+//      428571us / 96 = ~4464us midi tick interval

@@ -1,0 +1,61 @@
+[1/14] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+[2/14] Building C object esp-idf/blePeripheralServer/CMakeFiles/__idf_blePeripheralServer.dir/gatt_svr.c.obj
+In file included from /home/synth002/esp/esp-idf-v5.0/components/bt/host/nimble/nimble/nimble/host/include/host/ble_hs.h:34,
+                 from /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/gatt_svr.c:24:
+/home/synth002/esp/esp-idf-v5.0/components/bt/host/nimble/nimble/nimble/host/include/host/ble_gatt.h:74:57: warning: unsigned conversion from 'int' to 'unsigned char' changes value from '4096' to '0' [-Woverflow]
+   74 | #define BLE_GATT_CHR_F_WRITE_ENC                        0x1000
+      |                                                         ^~~~~~
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/gatt_svr.c:61:91: note: in expansion of macro 'BLE_GATT_CHR_F_WRITE_ENC'
+   61 |                                                            .flags = BLE_GATT_CHR_F_WRITE, BLE_GATT_CHR_F_WRITE_ENC
+      |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/synth002/esp/esp-idf-v5.0/components/bt/host/nimble/nimble/nimble/host/include/host/ble_gatt.h:74:57: warning: unsigned conversion from 'int' to 'unsigned char' changes value from '4096' to '0' [-Woverflow]
+   74 | #define BLE_GATT_CHR_F_WRITE_ENC                        0x1000
+      |                                                         ^~~~~~
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/gatt_svr.c:67:91: note: in expansion of macro 'BLE_GATT_CHR_F_WRITE_ENC'
+   67 |                                                            .flags = BLE_GATT_CHR_F_WRITE, BLE_GATT_CHR_F_WRITE_ENC
+      |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+[3/14] Performing build step for 'bootloader'
+[1/1] cd /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader/esp-idf/esptool_py && /home/synth002/.espressif/python_env/idf5.0_py3.10_env/bin/python /home/synth002/esp/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/bootloader/bootloader.bin
+Bootloader binary size 0x5160 bytes. 0x2ea0 bytes (36%) free.
+[4/12] Building C object esp-idf/system/CMakeFiles/__idf_system.dir/system.c.obj
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/system/system.c: In function 'systemEntryPoint':
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/system/system.c:78:24: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   78 |     playbackBufferBASE = playbackDataStore.playbackDataBASE;
+      |                        ^
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/system/system.c: In function 'playbackMidiData':
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/system/system.c:185:42: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  185 |             playbackDataPtr->playbackPtr = playbackDataPtr->playbackDataBASE;
+      |                                          ^
+At top level:
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/system/system.c:444:17: warning: 'getMicroSecondsPerQuaterNote' defined but not used [-Wunused-function]
+  444 | static uint32_t getMicroSecondsPerQuaterNote(uint8_t *const setTempoBase)
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[5/12] Building C object esp-idf/blePeripheralServer/CMakeFiles/__idf_blePeripheralServer.dir/blePeripheralServer.c.obj
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c: In function 'blePeriphAPI_task':
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c:73:13: warning: unused variable 'inputBuffer' [-Wunused-variable]
+   73 |     uint8_t inputBuffer;
+      |             ^~~~~~~~~~~
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c: In function 'bleprph_advertise':
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c:228:17: warning: unused variable 'name' [-Wunused-variable]
+  228 |     const char *name;                       //String placeholder
+      |                 ^~~~
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c: In function 'bleprph_gap_event':
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c:412:17: warning: unused variable 'key' [-Wunused-variable]
+  412 |             int key = 0;
+      |                 ^~~
+/home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/components/blePeripheralServer/blePeripheralServer.c:411:30: warning: unused variable 'pkey' [-Wunused-variable]
+  411 |             struct ble_sm_io pkey = {0};
+      |                              ^~~~
+[6/12] Linking C static library esp-idf/blePeripheralServer/libblePeripheralServer.a
+[7/12] Linking C static library esp-idf/system/libsystem.a
+[8/12] Linking C static library esp-idf/main/libmain.a
+[9/12] Generating ld/sections.ld
+[10/12] Linking CXX executable midi_io.elf
+[11/12] Generating binary image from built executable
+esptool.py v4.4
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/midi_io.bin
+[12/12] cd /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/esp-idf/esptool_py && /home/synth002/.espressif/python_env/idf5.0_py3.10_env/bin/python /home/synth002/esp/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/partition_table/partition-table.bin /home/synth002/Desktop/midiSequencer/midiSequencerMidiIOUnit_Firmware_NimBLEStack/Firmware/build/midi_io.bin
+midi_io.bin binary size 0x858a0 bytes. Smallest app partition is 0x177000 bytes. 0xf1760 bytes (64%) free.
