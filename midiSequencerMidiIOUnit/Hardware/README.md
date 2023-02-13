@@ -1,4 +1,4 @@
-# This is the Kicad 6 project for the 6 x 8 sequencer input unit.
+# This is the Kicad 6 project for the midiIO unit
 
 **Summary**
 
